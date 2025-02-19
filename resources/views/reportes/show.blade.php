@@ -9,26 +9,23 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                        <!-- Botones de Acción -->
-<div class="flex justify-between mt-6">
-    <!-- Botón de Regreso -->
-    <a href="{{ route('reportes.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-        Volver al Listado
-    </a>
+                       <div class="flex flex-wrap justify-between gap-2 mt-6">
+                        <!-- Botón de Regreso -->
+                        <a href="{{ route('reportes.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                            Volver al Listado
+                        </a>
 
-    <a href="{{ route('reportes.pdf', $reporte->id) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-        Descargar PDF
-    </a>
+                        <!-- Botón de Descargar PDF -->
+                        <a href="{{ route('reportes.pdf', $reporte->id) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+                            Descargar PDF
+                        </a>
 
-    {{-- <a href="{{ route('reportes.pdf', $reporte->id) }}" class="btn btn-primary" target="_blank">
-        Descargar PDF
-    </a> --}}
+                        <!-- Botón de Edición -->
+                        <a href="{{ route('reportes.edit', $reporte) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+                            Editar Reporte
+                        </a>
+                    </div>
 
-
-    <!-- Botón de Edición -->
-    <a href="{{ route('reportes.edit', $reporte) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-        Editar Reporte
-    </a>
-</div>
 <br>
             <!-- Tarjeta 1: Datos Generales -->
             <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
