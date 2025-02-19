@@ -22,10 +22,23 @@
         .page-number:before {
             content: "Página " counter(page);
         }
+
     </style>
 </head>
 <body>
-    <h2 style="text-align: center;">Reporte de Mantenimiento</h2>
+
+    {{--
+
+
+   <!-- Logo -->
+   <div style="text-align: center;">
+
+</div> --}}
+
+<div style="text-align: right;">
+    <img width="200" height="100" src="{{ public_path('images/logo.png') }}">
+</div>
+<h2 style="text-align: center;">Reporte de Mantenimiento</h2>
 
     <!-- Fecha y Hora de Generación -->
     <div style="text-align: right; margin-bottom: 20px;">
