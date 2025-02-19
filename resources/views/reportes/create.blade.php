@@ -189,27 +189,29 @@
                         </div>
 
                        <!-- Pads de Firma -->
-                        <div class="flex gap-6 mb-6">
+                       <div class="py-12 px-4 sm:px-6 lg:px-8">
+                        <div class="firma-container">
                             <!-- Firma del Técnico -->
-                            <div class="w-1/2">
+                            <div class="firma">
                                 <label for="firma_tecnico" class="block text-sm font-medium text-gray-700">Firma del Técnico</label>
-                                <canvas id="firma-tecnico-pad" width="500" height="150" style="border: 1px solid #ccc; width: 100%; height: 150px;"></canvas>
+                                <canvas id="firma-tecnico-pad"></canvas>
                                 <input type="hidden" name="firma_tecnico" id="firma_tecnico">
                                 <button type="button" onclick="limpiarFirma('tecnico')" class="mt-2 inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
                                     Limpiar Firma
                                 </button>
                             </div>
-
                             <!-- Firma del Cliente -->
-                            <div class="w-1/2">
+                            <div class="firma">
                                 <label for="firma_cliente" class="block text-sm font-medium text-gray-700">Firma del Cliente</label>
-                                <canvas id="firma-cliente-pad" width="500" height="150" style="border: 1px solid #ccc; width: 100%; height: 150px;"></canvas>
+                                <canvas id="firma-cliente-pad"></canvas>
                                 <input type="hidden" name="firma_cliente" id="firma_cliente">
                                 <button type="button" onclick="limpiarFirma('cliente')" class="mt-2 inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
                                     Limpiar Firma
                                 </button>
                             </div>
                         </div>
+                    </div>
+
 
                         <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                             Guardar
@@ -220,22 +222,84 @@
         </div>
     </div>
 
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Contenedor de las firmas */
+        .firma-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* Permite que los elementos se acomoden mejor en pantallas pequeñas */
+            justify-content: space-between; /* Asegura que haya espacio entre los pads */
+            overflow: hidden; /* Evita que los pads sobresalgan del contenedor */
+        }
+
+        .firma-container .firma {
+            flex: 1;
+            min-width: 250px; /* Asegura que cada firma tenga un tamaño mínimo */
+        }
+
+        /* Tamaños en desktop */
+        #firma-tecnico-pad, #firma-cliente-pad {
+            width: 100%;
+            height: 150px; /* Ajuste para desktop */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            touch-action: none; /* Evita que el navegador maneje eventos táctiles por defecto */
+            display: block; /* Elimina cualquier margen extra que pueda causar problemas */
+        }
+
+        /* Ajustes en móvil */
+        @media (max-width: 768px) {
+            .firma-container {
+                flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+                gap: 20px; /* Espacio entre los pads */
+            }
+
+            .firma-container .firma {
+                width: 100%; /* Hacer que cada firma ocupe el 100% del ancho disponible */
+                margin-bottom: 20px; /* Espacio entre los pads */
+            }
+
+            #firma-tecnico-pad, #firma-cliente-pad {
+                height: 250px; /* Aumentar la altura de los pads en móviles */
+            }
+        }
+    </style>
+
+
+
     <!-- Incluir la librería Signature Pad -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        function ajustarDimensionesCanvas(canvas) {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * devicePixelRatio; // Ajusta la resolución interna al zoom del dispositivo
+            canvas.height = rect.height * devicePixelRatio;
+            canvas.style.width = `${rect.width}px`; // Mantén el tamaño visual igual
+            canvas.style.height = `${rect.height}px`;
+        }
+
         // Inicializar Signature Pad para el técnico
         const firmaTecnicoPad = new SignaturePad(document.getElementById('firma-tecnico-pad'), {
             backgroundColor: 'rgba(255, 255, 255, 0)', // Fondo transparente
             penColor: 'rgb(0, 0, 0)', // Color del lápiz (negro)
         });
+        ajustarDimensionesCanvas(document.getElementById('firma-tecnico-pad'));
 
         // Inicializar Signature Pad para el cliente
         const firmaClientePad = new SignaturePad(document.getElementById('firma-cliente-pad'), {
             backgroundColor: 'rgba(255, 255, 255, 0)', // Fondo transparente
             penColor: 'rgb(0, 0, 0)', // Color del lápiz (negro)
         });
+        ajustarDimensionesCanvas(document.getElementById('firma-cliente-pad'));
 
         // Función para limpiar una firma
         window.limpiarFirma = function (tipo) {
@@ -254,14 +318,18 @@
             if (!firmaTecnicoPad.isEmpty()) {
                 document.getElementById('firma_tecnico').value = firmaTecnicoPad.toDataURL();
             }
-
             // Guardar la firma del cliente si no está vacía
             if (!firmaClientePad.isEmpty()) {
                 document.getElementById('firma_cliente').value = firmaClientePad.toDataURL();
             }
-
             // Permitir que el formulario se envíe normalmente
             return true;
+        });
+
+        // Escuchar cambios de tamaño de la ventana
+        window.addEventListener('resize', function () {
+            ajustarDimensionesCanvas(document.getElementById('firma-tecnico-pad'));
+            ajustarDimensionesCanvas(document.getElementById('firma-cliente-pad'));
         });
 
             // Autocompletar dirección y teléfono al seleccionar un cliente
